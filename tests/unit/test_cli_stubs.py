@@ -25,7 +25,6 @@ def test_audit_subgroup_has_tail_and_verify():
     assert "verify" in result.output
 
 
-def test_serve_stub_exits_2():
-    result = runner.invoke(app, ["serve"])
-    assert result.exit_code == 2
-    assert "not implemented" in result.output
+def test_serve_missing_config_exits_1(tmp_path):
+    result = runner.invoke(app, ["serve", "--config", str(tmp_path / "nope.yaml")])
+    assert result.exit_code == 1

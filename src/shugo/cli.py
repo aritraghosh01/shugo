@@ -46,7 +46,9 @@ def serve(
     approvals_port: int = typer.Option(6247, "--approvals-port", help="Port for HTTP approval UI"),
 ) -> None:
     """Run the guard proxy over stdio."""
-    _not_implemented("serve")
+    from shugo.commands import serve as _cmd
+
+    _cmd.run(config=config, console=console)
 
 
 @app.command(name="init")
