@@ -107,9 +107,12 @@ def evidence(
     framework: str = typer.Option(..., "--framework", "-f"),
     since: str = typer.Option("30d", "--since", "-s"),
     out: Path = typer.Option(Path("evidence"), "--out", "-o"),
+    config: Path = typer.Option(Path("guardrails.yaml"), "--config", "-c"),
 ) -> None:
     """Generate a framework-mapped evidence bundle from the audit log."""
-    _not_implemented("evidence")
+    from shugo.commands import evidence as _cmd
+
+    _cmd.run(framework=framework, since=since, out=out, config=config, console=console)
 
 
 @app.command()

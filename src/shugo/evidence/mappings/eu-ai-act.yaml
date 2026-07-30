@@ -1,0 +1,39 @@
+framework: EU-AI-ACT
+version: "2024"
+source_url: https://artificialintelligenceact.eu/
+disclaimer: |
+  Article identifiers reference the EU Artificial Intelligence Act. This
+  mapping is a data file authored by the SHUGO project from publicly
+  available legislative materials; it does not reproduce the copyrighted
+  text of the Act. SHUGO does not certify compliance with the AI Act.
+
+controls:
+  - id: EU-AI-ACT-ART-9
+    title: Risk management system
+    shugo_evidence:
+      - guardrails.yaml is a documented risk mitigation control; snapshot in every bundle
+      - Coverage gaps (controls with zero matched rules) surface as a residual-risk table
+
+  - id: EU-AI-ACT-ART-12
+    title: Record-keeping
+    shugo_evidence:
+      - Append-only JSONL audit log with per-entry SHA-256 hash chain (rotation-safe seed and NFC canonical encoding)
+      - "`shugo audit verify` demonstrates integrity of the record"
+
+  - id: EU-AI-ACT-ART-13
+    title: Transparency and provision of information
+    shugo_evidence:
+      - Human-readable YAML policy that any reviewer can diff
+      - "`shugo explain` provides dry-run visibility into what a given tool call would do"
+
+  - id: EU-AI-ACT-ART-14
+    title: Human oversight
+    shugo_evidence:
+      - escalate rules require human approval before tool execution
+      - approver identity and note captured on every escalated call
+
+  - id: EU-AI-ACT-ART-15
+    title: Accuracy, robustness and cybersecurity
+    shugo_evidence:
+      - defaults.decision=deny and defaults.on_error=deny enforce fail-closed behavior
+      - HALT sentinel for emergency stop; kill switch is documented in incident-playbook.md

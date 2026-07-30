@@ -1,0 +1,40 @@
+framework: NIST-AI-RMF
+version: "1.0"
+source_url: https://www.nist.gov/itl/ai-risk-management-framework
+disclaimer: |
+  Control identifiers and titles reference the NIST AI Risk Management Framework
+  (AI RMF 1.0). This mapping is a data file authored by the SHUGO project from
+  publicly available NIST materials; it does not reproduce copyrighted content.
+
+controls:
+  - id: NIST-AI-RMF-GOVERN-1.1
+    title: Policies for the AI system
+    shugo_evidence:
+      - guardrails.yaml is the codified policy; snapshot ships in every evidence bundle
+
+  - id: NIST-AI-RMF-GOVERN-4.1
+    title: Organizational accountability
+    shugo_evidence:
+      - Every audit entry records matched_rule_id and (when applicable) approver
+
+  - id: NIST-AI-RMF-MAP-3.4
+    title: Risk mitigation planning
+    shugo_evidence:
+      - Escalate rules map high-risk tool categories to human approval workflows
+
+  - id: NIST-AI-RMF-MEASURE-2.7
+    title: Trustworthiness in AI system behaviors
+    shugo_evidence:
+      - Coverage report shows which controls have matched rules vs. gaps
+
+  - id: NIST-AI-RMF-MANAGE-2.2
+    title: Preventing / mitigating deployment risks
+    shugo_evidence:
+      - Deny-by-default policy behavior on the proxy
+      - HALT kill switch for incident response
+      - Fail-closed on upstream errors (defaults.on_error=deny)
+
+  - id: NIST-AI-RMF-MANAGE-4.1
+    title: Post-deployment monitoring
+    shugo_evidence:
+      - Tamper-evident hash-chained audit log with `shugo audit verify` for periodic integrity checks

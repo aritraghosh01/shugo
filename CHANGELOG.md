@@ -27,3 +27,5 @@ All notable changes to SHUGO will be documented here. This project follows [Sema
 - Proxy escalate path now fully wired: request-approval, on-timeout honors policy (`allow` or `deny`), audit log records approver.
 - Opt-in local HTTP approval UI (`shugo.approval.http_ui`): single-file HTML page + `GET /api/pending` + `POST /api/verdict/<id>`. Bound to `127.0.0.1` only; shares the file-drop backend so `shugo approve --watch` and the browser resolve the same queue.
 - `shugo serve --approvals file|http|both --approvals-port N` (default port 6247).
+- Evidence packs (`shugo.evidence`): four framework mappings shipped as data files (OWASP LLM Top 10, NIST AI RMF, EU AI Act, ISO/IEC 42001) — control identifiers only, authored by the SHUGO project from public sources.
+- `shugo evidence -f FRAMEWORK -s SINCE -o OUT -c POLICY` generates a bundle: `report.md` (per-control fires / approvals / denies + coverage gaps), `rules.yaml` (policy snapshot), `audit-window.jsonl` (filtered entries), `manifest.json` (SHA-256 of every file + audit-log integrity check).
