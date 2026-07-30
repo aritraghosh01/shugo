@@ -63,7 +63,9 @@ def validate(
     config: Path = typer.Option(Path("guardrails.yaml"), "--config", "-c"),
 ) -> None:
     """Lint and schema-check the policy file."""
-    _not_implemented("validate")
+    from shugo.commands import validate as _cmd
+
+    _cmd.run(config, console)
 
 
 @app.command()
@@ -74,7 +76,9 @@ def explain(
     config: Path = typer.Option(Path("guardrails.yaml"), "--config", "-c"),
 ) -> None:
     """Dry-run a call — show which rule fires and why."""
-    _not_implemented("explain")
+    from shugo.commands import explain as _cmd
+
+    _cmd.run(server=server, tool=tool, args_json=args, config=config, console=console)
 
 
 @audit_app.command("tail")

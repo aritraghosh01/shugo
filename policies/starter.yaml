@@ -1,0 +1,42 @@
+version: "0.1"
+
+defaults:
+  decision: deny
+  on_error: deny
+
+upstreams:
+  github:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env: {}
+
+rules:
+  - id: read-only-github
+    description: Read-only GitHub operations are always allowed.
+    match:
+      server: github
+      tool: ["get_*", "list_*", "search_*"]
+    decision: allow
+
+  - id: no-force-push
+    description: Force push can destroy history irrecoverably.
+    match:
+      server: github
+      tool: push
+      args:
+        force: true
+    decision: deny
+    reason: Force push is prohibited for autonomous agents.
+    controls: [OWASP-LLM06, NIST-AI-RMF-MANAGE-2.2]
+
+  - id: write-needs-approval
+    description: Any other GitHub write requires human approval.
+    match:
+      server: github
+      tool: "*"
+    decision: escalate
+    approval:
+      channel: cli
+      timeout_seconds: 300
+      on_timeout: deny
+    controls: [EU-AI-ACT-ART-14]
