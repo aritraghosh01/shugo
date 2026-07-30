@@ -119,7 +119,9 @@ def approve(
     note: Optional[str] = typer.Option(None, "--note", help="Optional note on the decision"),
 ) -> None:
     """Approve a pending call, or run the watch TUI."""
-    _not_implemented("approve")
+    from shugo.commands import approve as _cmd
+
+    _cmd.run_approve(approval_id=approval_id, watch=watch, note=note, console=console)
 
 
 @app.command()
@@ -128,7 +130,9 @@ def deny(
     note: Optional[str] = typer.Option(None, "--note", help="Optional note on the decision"),
 ) -> None:
     """Deny a pending call."""
-    _not_implemented("deny")
+    from shugo.commands import approve as _cmd
+
+    _cmd.run_deny(approval_id=approval_id, note=note, console=console)
 
 
 @app.command()
