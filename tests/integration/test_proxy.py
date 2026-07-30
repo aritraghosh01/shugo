@@ -118,7 +118,7 @@ async def test_default_deny_blocks_unmatched(isolated_home):
 
 
 @pytest.mark.anyio
-async def test_escalate_treated_as_deny_in_pr4(isolated_home):
+async def test_escalate_denies_without_approval_channel(isolated_home):
     up = FakeUpstream("gh")
     up.add_tool("create_pr")
     cfg = _cfg(
@@ -135,6 +135,7 @@ async def test_escalate_treated_as_deny_in_pr4(isolated_home):
     async def driver(session):
         return await session.call_tool("gh__create_pr", {})
 
+    # Not injecting an approval channel — should deny with a clear reason.
     result = await _run_proxy_and_client(cfg, {"gh": up}, driver)
     assert result.isError
     assert up.calls == []

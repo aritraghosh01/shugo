@@ -21,3 +21,7 @@ All notable changes to SHUGO will be documented here. This project follows [Sema
 - Upstream (`shugo.upstream.StdioUpstream`): MCP client wrapping a stdio subprocess per upstream, managed via `AsyncExitStack` for clean teardown.
 - Proxy (`shugo.proxy`): full async MCP server that intercepts `tools/list` and `tools/call`, routes to the right upstream, evaluates policy, records to the audit log, and respects the HALT sentinel. `serve_with_upstreams(...)` is exposed for integration tests using in-memory streams and fake upstreams.
 - Working `shugo serve` with allow/deny paths (escalate temporarily rendered as deny; PR #5 wires real approvals).
+- File-drop approval channel (`shugo.approval.FileApprovalChannel`): proxy writes `~/.shugo/pending/<uuid>.json`, blocks on 250 ms poll of the `approved/` / `denied/` / `timeout/` directories; verdicts move atomically via `os.replace`.
+- Sidecar TUI (`shugo approve --watch`): polls the pending queue and prompts approve/deny/skip per request.
+- One-shot CLI: `shugo approve <id>` and `shugo deny <id> [--note NOTE]`.
+- Proxy escalate path now fully wired: request-approval, on-timeout honors policy (`allow` or `deny`), audit log records approver.
