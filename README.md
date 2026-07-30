@@ -10,11 +10,20 @@
 
 <br>
 
-<a href="https://pypi.org/project/shugo/"><img src="https://img.shields.io/pypi/v/shugo?style=flat-square&color=A03A26" alt="PyPI"></a>
+<a href="https://pypi.org/project/shugo/0.1.0/"><img src="https://img.shields.io/badge/pypi-v0.1.0-A03A26?style=flat-square&logo=pypi&logoColor=white" alt="PyPI v0.1.0"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-A03A26?style=flat-square" alt="MIT License"></a>
 <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-native-0E1A2B?style=flat-square" alt="MCP native"></a>
-<a href="https://github.com/aritraghosh01/shugo/releases/tag/v0.1.0"><img src="https://img.shields.io/badge/release-v0.1.0-1F6F4A?style=flat-square" alt="v0.1.0"></a>
+<a href="https://github.com/aritraghosh01/shugo/releases/tag/v0.1.0"><img src="https://img.shields.io/badge/release-v0.1.0-1F6F4A?style=flat-square" alt="Release v0.1.0"></a>
 <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-1F6F4A?style=flat-square" alt="PRs welcome"></a>
+
+<br><br>
+
+```bash
+uvx shugo init      # scaffold guardrails.yaml from your existing MCP config
+uvx shugo serve     # start guarding
+```
+
+<sub>Available on PyPI as <a href="https://pypi.org/project/shugo/"><code>shugo</code></a> · latest version <b>0.1.0</b> (2026-07-30)</sub>
 
 </div>
 
