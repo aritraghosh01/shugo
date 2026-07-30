@@ -25,3 +25,5 @@ All notable changes to SHUGO will be documented here. This project follows [Sema
 - Sidecar TUI (`shugo approve --watch`): polls the pending queue and prompts approve/deny/skip per request.
 - One-shot CLI: `shugo approve <id>` and `shugo deny <id> [--note NOTE]`.
 - Proxy escalate path now fully wired: request-approval, on-timeout honors policy (`allow` or `deny`), audit log records approver.
+- Opt-in local HTTP approval UI (`shugo.approval.http_ui`): single-file HTML page + `GET /api/pending` + `POST /api/verdict/<id>`. Bound to `127.0.0.1` only; shares the file-drop backend so `shugo approve --watch` and the browser resolve the same queue.
+- `shugo serve --approvals file|http|both --approvals-port N` (default port 6247).

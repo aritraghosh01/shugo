@@ -144,8 +144,21 @@ async def serve_with_upstreams(
     )
 
 
-async def serve(config: Config) -> None:
-    """Production entry point: spawn stdio upstreams and run the proxy over stdio."""
+async def serve(
+    config: Config,
+    approvals: str = "file",
+    approvals_port: int = 6247,
+) -> None:
+    """Production entry point: spawn stdio upstreams and run the proxy over stdio.
+
+    approvals: 'file' (default), 'http', or 'both'.
+    approvals_port: port for the HTTP approval UI (bound to 127.0.0.1).
+    """
+    import asyncio
+
+    if approvals not in ("file", "http", "both"):
+        raise ShugoError(f"approvals must be file|http|both, got {approvals!r}")
+
     paths.ensure_layout()
     async with AsyncExitStack() as stack:
         upstreams: dict[str, UpstreamProtocol] = {}
@@ -154,12 +167,29 @@ async def serve(config: Config) -> None:
 
         engine = PolicyEngine(config)
         audit = AuditLog(paths.audit_log(), redact_paths=config.redact)
-        approval = FileApprovalChannel()
+        approval = FileApprovalChannel()  # both channels share the file-drop backend
         server = _build_server(upstreams, engine, audit, approval=approval)
 
-        async with stdio_server() as (read_stream, write_stream):
-            await server.run(
-                read_stream,
-                write_stream,
-                server.create_initialization_options(NotificationOptions()),
+        http_task: asyncio.Task | None = None
+        if approvals in ("http", "both"):
+            from shugo.approval.http_ui import run_http_ui
+
+            http_task = asyncio.create_task(
+                run_http_ui(paths.shugo_home(), port=approvals_port),
+                name="shugo-http-approvals",
             )
+
+        try:
+            async with stdio_server() as (read_stream, write_stream):
+                await server.run(
+                    read_stream,
+                    write_stream,
+                    server.create_initialization_options(NotificationOptions()),
+                )
+        finally:
+            if http_task is not None:
+                http_task.cancel()
+                try:
+                    await http_task
+                except (asyncio.CancelledError, Exception):
+                    pass

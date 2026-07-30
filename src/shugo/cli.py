@@ -48,7 +48,7 @@ def serve(
     """Run the guard proxy over stdio."""
     from shugo.commands import serve as _cmd
 
-    _cmd.run(config=config, console=console)
+    _cmd.run(config=config, console=console, approvals=approvals, approvals_port=approvals_port)
 
 
 @app.command(name="init")

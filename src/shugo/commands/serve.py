@@ -11,7 +11,12 @@ from shugo.policy.loader import load_config
 from shugo.proxy import serve as _serve
 
 
-def run(config: Path, console: Console) -> int:
+def run(
+    config: Path,
+    console: Console,
+    approvals: str = "file",
+    approvals_port: int = 6247,
+) -> int:
     try:
         cfg = load_config(config)
     except PolicyError as e:
@@ -23,7 +28,7 @@ def run(config: Path, console: Console) -> int:
         raise typer.Exit(code=1)
 
     try:
-        asyncio.run(_serve(cfg))
+        asyncio.run(_serve(cfg, approvals=approvals, approvals_port=approvals_port))
     except (ShugoError, KeyboardInterrupt) as e:
         if isinstance(e, KeyboardInterrupt):
             raise typer.Exit(code=0)
