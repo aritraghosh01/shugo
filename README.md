@@ -10,9 +10,10 @@
 
 <br>
 
+<a href="https://pypi.org/project/shugo/"><img src="https://img.shields.io/pypi/v/shugo?style=flat-square&color=A03A26" alt="PyPI"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-A03A26?style=flat-square" alt="MIT License"></a>
 <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-native-0E1A2B?style=flat-square" alt="MCP native"></a>
-<a href="#️-roadmap"><img src="https://img.shields.io/badge/status-v0.1_in_development-6B7280?style=flat-square" alt="Status"></a>
+<a href="https://github.com/aritraghosh01/shugo/releases/tag/v0.1.0"><img src="https://img.shields.io/badge/release-v0.1.0-1F6F4A?style=flat-square" alt="v0.1.0"></a>
 <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-1F6F4A?style=flat-square" alt="PRs welcome"></a>
 
 </div>
@@ -215,16 +216,36 @@ Framework mappings ship as data files sourced from **public** standards only —
 
 ---
 
+## 📦 Release notes — v0.1.0 (2026-07-30)
+
+First release. Everything in the sections above is now real code you can install with `uvx shugo`.
+
+**What ships:**
+
+- **Guard proxy over stdio** — SHUGO speaks MCP to both your client and any number of upstream servers, namespaces tools as `<server>__<tool>`, and applies policy on every `tools/call`.
+- **Policy engine** — deny-by-default, first-match-wins, `fnmatch` globs on server/tool, nested-equality on args. Decisions: `allow`, `deny`, `escalate`.
+- **Human approvals** — file-drop queue at `~/.shugo/pending/` resolved by either `shugo approve --watch` (Rich TUI) or an opt-in local HTTP UI (`shugo serve --approvals http`).
+- **Hash-chained audit log** — append-only JSONL, rolling SHA-256, NFC-canonical JSON, per-line `fsync`. `shugo audit verify` detects any post-hoc edit.
+- **Evidence bundles** — `shugo evidence -f <owasp-llm|nist-ai-rmf|eu-ai-act|iso-42001>` produces a control-mapped report, policy snapshot, filtered audit-log window, and SHA-256 manifest.
+- **`shugo init`** — reads Claude Desktop / Code / Cursor / VS Code MCP configs, enumerates upstream tools, writes a starter policy, prints the exact JSON snippet to paste.
+- **Kill switch** — `shugo halt` denies everything until `shugo unhalt`.
+
+**Quality:** 102 fast tests + 1 e2e test (real `@modelcontextprotocol/server-filesystem` via `npx`). CI on Python 3.11–3.13 × macOS / Ubuntu / Windows. All dependencies MIT / BSD-3 / Apache-2.0; no copyleft, no BSL.
+
+Full changelog: [CHANGELOG.md](CHANGELOG.md) · GitHub release: [v0.1.0](https://github.com/aritraghosh01/shugo/releases/tag/v0.1.0)
+
+---
+
 ## 🗺️ Roadmap
 
-| Version | Theme |
-|---|---|
-| **v0.1** | Guard proxy, policy engine, approvals, audit log, evidence packs |
-| v0.2 | Layer ① depth — OAuth 2.1 / OIDC identity, per-principal policy, delegation scoping |
-| v0.3 | Layer ② depth — retrieval boundaries, context filters, memory access rules |
-| v0.4 | Layer ④ depth — injection detection, output validation, rollback |
-| v0.5 | Layer ⑤ depth — policy regression suites, adversarial harness |
-| v1.0 | Frozen policy schema, semantic versioning guarantee, plugin API |
+| Version | Theme | Status |
+|---|---|---|
+| **v0.1** | Guard proxy, policy engine, approvals, audit log, evidence packs | ✅ released 2026-07-30 |
+| v0.2 | Layer ① depth — OAuth 2.1 / OIDC identity, per-principal policy, delegation scoping | planned |
+| v0.3 | Layer ② depth — retrieval boundaries, context filters, memory access rules | planned |
+| v0.4 | Layer ④ depth — injection detection, output validation, rollback | planned |
+| v0.5 | Layer ⑤ depth — policy regression suites, adversarial harness | planned |
+| v1.0 | Frozen policy schema, semantic versioning guarantee, plugin API | planned |
 
 ---
 
