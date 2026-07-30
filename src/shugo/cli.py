@@ -55,9 +55,14 @@ def serve(
 def init_cmd(
     from_: Optional[Path] = typer.Option(None, "--from", help="Path to existing MCP client config"),
     out: Path = typer.Option(Path("guardrails.yaml"), "--out", "-o", help="Output policy path"),
+    skip_enumerate: bool = typer.Option(
+        False, "--skip-enumerate", help="Don't spawn upstreams to enumerate tools"
+    ),
 ) -> None:
     """Scaffold guardrails.yaml from installed MCP servers."""
-    _not_implemented("init")
+    from shugo.commands import init as _cmd
+
+    _cmd.run(from_=from_, out=out, console=console, enumerate_upstreams=not skip_enumerate)
 
 
 @app.command()

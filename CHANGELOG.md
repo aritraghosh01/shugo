@@ -2,7 +2,7 @@
 
 All notable changes to SHUGO will be documented here. This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.0] — 2026-07-30
 
 ### Added
 - Initial project skeleton and packaging (`pyproject.toml`, `src/shugo/` layout).
@@ -29,3 +29,7 @@ All notable changes to SHUGO will be documented here. This project follows [Sema
 - `shugo serve --approvals file|http|both --approvals-port N` (default port 6247).
 - Evidence packs (`shugo.evidence`): four framework mappings shipped as data files (OWASP LLM Top 10, NIST AI RMF, EU AI Act, ISO/IEC 42001) — control identifiers only, authored by the SHUGO project from public sources.
 - `shugo evidence -f FRAMEWORK -s SINCE -o OUT -c POLICY` generates a bundle: `report.md` (per-control fires / approvals / denies + coverage gaps), `rules.yaml` (policy snapshot), `audit-window.jsonl` (filtered entries), `manifest.json` (SHA-256 of every file + audit-log integrity check).
+- `shugo init` (`shugo.discovery` + `shugo.commands.init`): finds Claude Desktop / Claude Code / Cursor / VS Code configs per-OS, enumerates upstream tools via 10 s stdio probe, writes a starter `guardrails.yaml` with `read_*|list_*|get_*|search_*` allowed and everything else escalated, prints the exact JSON snippet to paste into the client config, backs up any existing policy.
+- Documentation: `docs/quickstart.md`, `docs/policy-guide.md`, `docs/approvals.md`, `docs/evidence.md`, and `incident-playbook.md`.
+- End-to-end test against real `@modelcontextprotocol/server-filesystem` via `npx` (marked `slow`; runs in CI on Ubuntu).
+- Release workflow (`.github/workflows/release.yml`) publishes to PyPI via trusted publishing on `v*` tags.
