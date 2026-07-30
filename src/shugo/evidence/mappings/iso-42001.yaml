@@ -1,0 +1,34 @@
+framework: ISO-IEC-42001
+version: "2023"
+source_url: https://www.iso.org/standard/81230.html
+disclaimer: |
+  Control identifiers reference ISO/IEC 42001:2023 (AI management systems).
+  This mapping is a data file authored by the SHUGO project from publicly
+  documented control identifiers; it does not reproduce the copyrighted
+  standard text. SHUGO does not certify conformance with ISO/IEC 42001.
+
+controls:
+  - id: ISO-42001-A.6.2.6
+    title: AI system impact assessment
+    shugo_evidence:
+      - guardrails.yaml documents which upstreams and tool categories the system may act on
+
+  - id: ISO-42001-A.7.4
+    title: AI system operations — monitoring
+    shugo_evidence:
+      - Continuous audit log with tamper-evident hash chain and `shugo audit verify`
+
+  - id: ISO-42001-A.8.2
+    title: AI system oversight
+    shugo_evidence:
+      - escalate rules with channel=cli enforce human oversight on high-risk tool calls
+
+  - id: ISO-42001-A.9.2
+    title: Incident response
+    shugo_evidence:
+      - HALT / unhalt kill switch and file-drop pending queue for post-incident forensic review
+
+  - id: ISO-42001-A.10.2
+    title: Data security controls
+    shugo_evidence:
+      - Configured `redact:` paths remove secrets from stored audit entries before hashing

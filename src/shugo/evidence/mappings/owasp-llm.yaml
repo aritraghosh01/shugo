@@ -1,0 +1,48 @@
+framework: OWASP-LLM
+version: "2025"
+source_url: https://genai.owasp.org/llm-top-10/
+disclaimer: |
+  Control identifiers and titles reference the OWASP Top 10 for LLM Applications.
+  This mapping is a data file authored by the SHUGO project from publicly
+  available OWASP materials; it does not reproduce copyrighted control text.
+
+controls:
+  - id: OWASP-LLM01
+    title: Prompt Injection
+    shugo_evidence:
+      - Policy rules that deny or escalate tool calls where inputs originate from untrusted content sources
+      - Audit entries showing denies of malformed / injected tool arguments
+
+  - id: OWASP-LLM02
+    title: Insecure Output Handling
+    shugo_evidence:
+      - Policy rules gating tool categories that write or execute based on model output (create_*, run_*, exec_*)
+
+  - id: OWASP-LLM04
+    title: Model Denial of Service
+    shugo_evidence:
+      - Rate-limit-adjacent policy patterns (redact / escalate for high-cardinality argument shapes)
+      - HALT sentinel activations recorded during incidents
+
+  - id: OWASP-LLM06
+    title: Excessive Agency
+    shugo_evidence:
+      - Policy rules with decision=escalate or decision=deny on tool categories that create, modify, or delete
+      - Audit log entries showing rule enforcement plus approver identity for escalated actions
+
+  - id: OWASP-LLM07
+    title: Insecure Plugin Design
+    shugo_evidence:
+      - guardrails.yaml enumerates every upstream MCP server; unknown upstreams are refused at proxy boot
+      - Per-server allow/deny scoping documented in matched_rule_id column of the audit log
+
+  - id: OWASP-LLM08
+    title: Excessive Autonomy
+    shugo_evidence:
+      - Human-in-the-loop approvals via channel=cli with recorded approver and note
+      - on_timeout=deny for escalate rules enforces fail-closed behavior
+
+  - id: OWASP-LLM10
+    title: Model Theft
+    shugo_evidence:
+      - Redaction of secret-bearing argument paths before hashing so audit records do not exfiltrate credentials
