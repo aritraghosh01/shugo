@@ -87,13 +87,17 @@ def audit_tail(
     n: int = typer.Option(20, "-n", help="Number of entries to show"),
 ) -> None:
     """Show recent audit log entries."""
-    _not_implemented("audit tail")
+    from shugo.commands import audit as _cmd
+
+    _cmd.run_tail(n=n, follow=follow, console=console)
 
 
 @audit_app.command("verify")
 def audit_verify() -> None:
     """Verify the audit log hash chain."""
-    _not_implemented("audit verify")
+    from shugo.commands import audit as _cmd
+
+    _cmd.run_verify(console=console)
 
 
 @app.command()
@@ -128,13 +132,17 @@ def deny(
 @app.command()
 def halt() -> None:
     """Kill switch — deny all subsequent calls until unhalted."""
-    _not_implemented("halt")
+    from shugo.commands import halt as _cmd
+
+    _cmd.run_halt(console)
 
 
 @app.command()
 def unhalt() -> None:
     """Clear the halt sentinel."""
-    _not_implemented("unhalt")
+    from shugo.commands import halt as _cmd
+
+    _cmd.run_unhalt(console)
 
 
 if __name__ == "__main__":
